@@ -16,6 +16,8 @@ class UserService {
         "userId": data['userId'].toString(),
         'firstName': data['firstName'],
         'lastName': data['lastName'],
+        'phoneNumber': data['phone'],
+        'address': data['address'],
       };
     } else {
       print('Failed to fetch user details: ${response.body}');

@@ -35,6 +35,8 @@ class _LoginScreenState extends State<LoginScreen> {
       if (userDetails != null) {
         String name = '${userDetails['firstName']} ${userDetails['lastName']}';
         int userId = int.parse(userDetails['userId'].toString());
+        String phoneNumber = userDetails['phoneNumber'].toString();
+        String address = userDetails['address'].toString();
         // Fetch user balance
         try {
           String balance = await _balanceService.getBalance(accountNumber);
@@ -49,6 +51,9 @@ class _LoginScreenState extends State<LoginScreen> {
               balance: balance,
               accountNumber: accountNumber,
               userId: userId.toString(),
+              phoneNumber: phoneNumber,
+              address: address,
+              
               ),
             ),
             );

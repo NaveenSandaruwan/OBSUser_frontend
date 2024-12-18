@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:user_frontend/widgets/PaymentOptionButton.dart';
 import 'card.dart'; // Import the CardPage
+import 'accountPage.dart'; // Import the AccountPage
 
 class PaymentOptionScreen extends StatelessWidget {
   final String name;
@@ -8,6 +9,8 @@ class PaymentOptionScreen extends StatelessWidget {
   final String balance;
   final String accountNumber;
   final String userId;
+  final String phoneNumber;
+  final String address;
 
   const PaymentOptionScreen({
     super.key,
@@ -16,6 +19,8 @@ class PaymentOptionScreen extends StatelessWidget {
     required this.balance,
     required this.accountNumber,
     required this.userId,
+    required this.phoneNumber,
+    required this.address,
   });
 
   @override
@@ -92,10 +97,23 @@ class PaymentOptionScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    // Transfer Button
+                    // Profile Button
                     ElevatedButton(
                       onPressed: () {
-                        // TODO: Implement transfer functionality
+                        // Navigate to the AccountPage with user information
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AccountPage(
+                              name: name,
+                              email: email,
+                              accountNumber: accountNumber,
+                              userId: userId,
+                              phoneNumber: phoneNumber,
+                              address: address,
+                            ),
+                          ),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.deepPurple,
