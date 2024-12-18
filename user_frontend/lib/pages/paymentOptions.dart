@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:user_frontend/widgets/PaymentOptionButton.dart';
+import 'card.dart'; // Import the CardPage
+import 'accountPage.dart'; // Import the AccountPage
 
 class PaymentOptionScreen extends StatelessWidget {
   final String name;
   final String email;
   final String balance;
   final String accountNumber;
+  final String userId;
+  final String phoneNumber;
+  final String address;
 
   const PaymentOptionScreen({
     super.key,
@@ -13,6 +18,9 @@ class PaymentOptionScreen extends StatelessWidget {
     required this.email,
     required this.balance,
     required this.accountNumber,
+    required this.userId,
+    required this.phoneNumber,
+    required this.address,
   });
 
   @override
@@ -26,7 +34,7 @@ class PaymentOptionScreen extends StatelessWidget {
               // Blue Top Section
               Container(
                 width: double.infinity,
-                height: MediaQuery.of(context).size.height * 0.4, // 35% of screen height
+                height: MediaQuery.of(context).size.height * 0.47, // 40% of screen height
                 color: Colors.blue,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -54,6 +62,23 @@ class PaymentOptionScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 20),
+                    // Account Number Section
+                    const Text(
+                      'ACCOUNT NUMBER',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      accountNumber,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
                     // Balance Section
                     const Text(
                       'BALANCE',
@@ -72,10 +97,23 @@ class PaymentOptionScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    // Transfer Button
+                    // Profile Button
                     ElevatedButton(
                       onPressed: () {
-                        // TODO: Implement transfer functionality
+                        // Navigate to the AccountPage with user information
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AccountPage(
+                              name: name,
+                              email: email,
+                              accountNumber: accountNumber,
+                              userId: userId,
+                              phoneNumber: phoneNumber,
+                              address: address,
+                            ),
+                          ),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.deepPurple,
@@ -112,10 +150,41 @@ class PaymentOptionScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     // Payment Option Buttons
-                    PaymentOptionButton(title: 'Transaction'),
-                    PaymentOptionButton(title: 'Payment'),
-                    PaymentOptionButton(title: 'Exchange'),
-                    PaymentOptionButton(title: 'Card'),
+                    PaymentOptionButton(
+                      title: 'Transaction',
+                      onPressed: () {
+                        // TODO: Implement transaction functionality
+                      },
+                    ),
+                    PaymentOptionButton(
+                      title: 'Payment',
+                      onPressed: () {
+                        // TODO: Implement payment functionality
+                      },
+                    ),
+                    PaymentOptionButton(
+                      title: 'Exchange',
+                      onPressed: () {
+                        // TODO: Implement exchange functionality
+                      },
+                    ),
+                    PaymentOptionButton(
+                      title: 'Card',
+                      onPressed: () {
+                        // Navigate to the CardPage with user information
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CardPage(
+                              userId: int.parse(userId),
+                              name: name,
+                              email: email,
+                              accountNumber: accountNumber,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                     const SizedBox(height: 20),
                     // More Button
                     Align(
