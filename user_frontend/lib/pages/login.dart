@@ -5,6 +5,8 @@ import 'package:user_frontend/services/user_service.dart'; // Import the UserSer
 import 'package:user_frontend/services/balanceService.dart'; // Import the BalanceService
 import 'signup.dart'; // Import the SignUpScreen
 import 'paymentOptions.dart'; // Import the PaymentOptionScreen
+import 'card.dart'; // Import the CardPage
+import 'package:user_frontend/widgets/textFeild.dart'; // Import the CustomTextField
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -32,23 +34,24 @@ class _LoginScreenState extends State<LoginScreen> {
       final userDetails = await _userService.getUserDetails(email);
       if (userDetails != null) {
         String name = '${userDetails['firstName']} ${userDetails['lastName']}';
-
+        int userId = int.parse(userDetails['userId'].toString());
         // Fetch user balance
         try {
           String balance = await _balanceService.getBalance(accountNumber);
 
           // Navigate to the PaymentOptionScreen with user information
-          Navigator.pushReplacement(
+            Navigator.pushReplacement(
             context,
             MaterialPageRoute(
               builder: (context) => PaymentOptionScreen(
-                name: name,
-                email: email,
-                balance: balance,
-                accountNumber: accountNumber,
+              name: name,
+              email: email,
+              balance: balance,
+              accountNumber: accountNumber,
+              userId: userId.toString(),
               ),
             ),
-          );
+            );
         } catch (e) {
           // Show an error message if balance could not be fetched
           ScaffoldMessenger.of(context).showSnackBar(
@@ -118,37 +121,24 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     const SizedBox(height: 20),
                     // Email Field
-                    TextField(
+                    CustomTextField(
                       controller: _emailController,
-                      decoration: InputDecoration(
-                        labelText: 'Email',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
+                      labelText: 'Email',
+                      keyboardType: TextInputType.emailAddress,
                     ),
                     const SizedBox(height: 20),
                     // Account Number Field
-                    TextField(
+                    CustomTextField(
                       controller: _accountNumberController,
-                      decoration: InputDecoration(
-                        labelText: 'Account Number',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
+                      labelText: 'Account Number',
+                      keyboardType: TextInputType.number,
                     ),
                     const SizedBox(height: 20),
                     // Password Field
-                    TextField(
+                    CustomTextField(
                       controller: _passwordController,
+                      labelText: 'Password',
                       obscureText: true,
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
                     ),
                     const SizedBox(height: 30),
                     // Login Button

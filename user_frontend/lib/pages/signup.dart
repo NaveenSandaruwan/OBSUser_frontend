@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:user_frontend/services/user_service.dart'; // Import the UserService
 import 'login.dart'; // Import the LoginScreen
+import 'package:user_frontend/widgets/textFeild.dart'; // Import the CustomTextField
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -96,70 +97,42 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   children: [
                     const SizedBox(height: 20),
                     // First Name Field
-                    TextField(
+                    CustomTextField(
                       controller: _firstNameController,
-                      decoration: InputDecoration(
-                        labelText: 'First Name',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
+                      labelText: 'First Name',
                     ),
                     const SizedBox(height: 20),
                     // Last Name Field
-                    TextField(
+                    CustomTextField(
                       controller: _lastNameController,
-                      decoration: InputDecoration(
-                        labelText: 'Last Name',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
+                      labelText: 'Last Name',
                     ),
                     const SizedBox(height: 20),
                     // Email Field
-                    TextField(
+                    CustomTextField(
                       controller: _emailController,
-                      decoration: InputDecoration(
-                        labelText: 'Email',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
+                      labelText: 'Email',
+                      keyboardType: TextInputType.emailAddress,
                     ),
                     const SizedBox(height: 20),
                     // Phone Field
-                    TextField(
+                    CustomTextField(
                       controller: _phoneController,
-                      decoration: InputDecoration(
-                        labelText: 'Phone',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
+                      labelText: 'Phone',
+                      keyboardType: TextInputType.phone,
                     ),
                     const SizedBox(height: 20),
                     // Address Field
-                    TextField(
+                    CustomTextField(
                       controller: _addressController,
-                      decoration: InputDecoration(
-                        labelText: 'Address',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
+                      labelText: 'Address',
                     ),
                     const SizedBox(height: 20),
                     // Password Field
-                    TextField(
+                    CustomTextField(
                       controller: _passwordController,
+                      labelText: 'Password',
                       obscureText: true,
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
                     ),
                     const SizedBox(height: 10),
                     const Text(

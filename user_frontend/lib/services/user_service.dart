@@ -13,6 +13,7 @@ class UserService {
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       return {
+        "userId": data['userId'].toString(),
         'firstName': data['firstName'],
         'lastName': data['lastName'],
       };

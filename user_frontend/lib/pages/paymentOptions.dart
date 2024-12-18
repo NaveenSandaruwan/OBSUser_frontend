@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:user_frontend/widgets/PaymentOptionButton.dart';
+import 'card.dart'; // Import the CardPage
 
 class PaymentOptionScreen extends StatelessWidget {
   final String name;
   final String email;
   final String balance;
   final String accountNumber;
+  final String userId;
 
   const PaymentOptionScreen({
     super.key,
@@ -13,6 +15,7 @@ class PaymentOptionScreen extends StatelessWidget {
     required this.email,
     required this.balance,
     required this.accountNumber,
+    required this.userId,
   });
 
   @override
@@ -129,10 +132,41 @@ class PaymentOptionScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     // Payment Option Buttons
-                    PaymentOptionButton(title: 'Transaction'),
-                    PaymentOptionButton(title: 'Payment'),
-                    PaymentOptionButton(title: 'Exchange'),
-                    PaymentOptionButton(title: 'Card'),
+                    PaymentOptionButton(
+                      title: 'Transaction',
+                      onPressed: () {
+                        // TODO: Implement transaction functionality
+                      },
+                    ),
+                    PaymentOptionButton(
+                      title: 'Payment',
+                      onPressed: () {
+                        // TODO: Implement payment functionality
+                      },
+                    ),
+                    PaymentOptionButton(
+                      title: 'Exchange',
+                      onPressed: () {
+                        // TODO: Implement exchange functionality
+                      },
+                    ),
+                    PaymentOptionButton(
+                      title: 'Card',
+                      onPressed: () {
+                        // Navigate to the CardPage with user information
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CardPage(
+                              userId: int.parse(userId),
+                              name: name,
+                              email: email,
+                              accountNumber: accountNumber,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                     const SizedBox(height: 20),
                     // More Button
                     Align(
