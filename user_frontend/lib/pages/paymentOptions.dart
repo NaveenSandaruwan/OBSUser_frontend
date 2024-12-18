@@ -26,7 +26,7 @@ class PaymentOptionScreen extends StatelessWidget {
               // Blue Top Section
               Container(
                 width: double.infinity,
-                height: MediaQuery.of(context).size.height * 0.4, // 35% of screen height
+                height: MediaQuery.of(context).size.height * 0.47, // 40% of screen height
                 color: Colors.blue,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -50,6 +50,23 @@ class PaymentOptionScreen extends StatelessWidget {
                       email,
                       style: const TextStyle(
                         fontSize: 14,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    // Account Number Section
+                    const Text(
+                      'ACCOUNT NUMBER',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      accountNumber,
+                      style: const TextStyle(
+                        fontSize: 16,
                         color: Colors.white,
                       ),
                     ),

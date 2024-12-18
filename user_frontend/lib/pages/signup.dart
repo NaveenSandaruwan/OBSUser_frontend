@@ -1,7 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:user_frontend/services/user_service.dart'; // Import the UserService
+import 'login.dart'; // Import the LoginScreen
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
+
+  @override
+  _SignUpScreenState createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
+  final UserService _userService = UserService();
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+  bool _termsAccepted = false;
+
+  void _signUp() async {
+    if (!_termsAccepted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('You must accept the terms and conditions')),
+      );
+      return;
+    }
+
+    final userData = {
+      'firstName': _firstNameController.text,
+      'lastName': _lastNameController.text,
+      'email': _emailController.text,
+      'phone': _phoneController.text,
+      'passwordHash': _passwordController.text,
+      'address': _addressController.text,
+    };
+
+    bool success = await _userService.createUser(userData);
+    if (success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('User created successfully')),
+      );
+      // Navigate to the login screen
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Failed to create user')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,20 +95,22 @@ class SignUpScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const SizedBox(height: 20),
-                    // Name Field
+                    // First Name Field
                     TextField(
+                      controller: _firstNameController,
                       decoration: InputDecoration(
-                        labelText: 'Your Name',
+                        labelText: 'First Name',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
                     ),
                     const SizedBox(height: 20),
-                    // Bank Account Field
+                    // Last Name Field
                     TextField(
+                      controller: _lastNameController,
                       decoration: InputDecoration(
-                        labelText: 'Bank Account',
+                        labelText: 'Last Name',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -67,6 +119,7 @@ class SignUpScreen extends StatelessWidget {
                     const SizedBox(height: 20),
                     // Email Field
                     TextField(
+                      controller: _emailController,
                       decoration: InputDecoration(
                         labelText: 'Email',
                         border: OutlineInputBorder(
@@ -75,8 +128,31 @@ class SignUpScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 20),
+                    // Phone Field
+                    TextField(
+                      controller: _phoneController,
+                      decoration: InputDecoration(
+                        labelText: 'Phone',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    // Address Field
+                    TextField(
+                      controller: _addressController,
+                      decoration: InputDecoration(
+                        labelText: 'Address',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
                     // Password Field
                     TextField(
+                      controller: _passwordController,
                       obscureText: true,
                       decoration: InputDecoration(
                         labelText: 'Password',
@@ -97,7 +173,14 @@ class SignUpScreen extends StatelessWidget {
                     // Checkbox for Terms & Conditions
                     Row(
                       children: [
-                        Checkbox(value: false, onChanged: (bool? value) {}),
+                        Checkbox(
+                          value: _termsAccepted,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              _termsAccepted = value ?? false;
+                            });
+                          },
+                        ),
                         const Expanded(
                           child: Text(
                             'By signing up, you agree to Bank\'s Term of Use & Privacy Policy.',
@@ -111,9 +194,7 @@ class SignUpScreen extends StatelessWidget {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {
-                          // TODO: Implement sign-up functionality
-                        },
+                        onPressed: _signUp,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue,
                           padding: const EdgeInsets.symmetric(vertical: 15),
@@ -165,7 +246,11 @@ class SignUpScreen extends StatelessWidget {
                         ),
                         TextButton(
                           onPressed: () {
-                            // TODO: Implement Log in functionality
+                            // Navigate to the LoginScreen
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => const LoginScreen()),
+                            );
                           },
                           child: const Text(
                             'Log in',
