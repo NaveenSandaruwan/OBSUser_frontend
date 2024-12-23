@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:user_frontend/services/transaction_service.dart'; // Import the TransactionService
+import 'transaction_history_page.dart'; // Import the TransactionHistoryPage
 
 class TransactionPage extends StatefulWidget {
   final String accountNumber;
@@ -135,6 +136,31 @@ class _TransactionPageState extends State<TransactionPage> {
                   ),
                   child: const Text(
                     'SUBMIT',
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Navigate to the TransactionHistoryPage
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TransactionHistoryPage(
+                          accountNumber: widget.accountNumber,
+                        ),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blueAccent,
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                  ),
+                  child: const Text(
+                    'TRANSACTION HISTORY',
                     style: TextStyle(color: Colors.white, fontSize: 16),
                   ),
                 ),
