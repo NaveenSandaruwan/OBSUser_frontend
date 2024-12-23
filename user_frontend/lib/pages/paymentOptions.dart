@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:user_frontend/widgets/PaymentOptionButton.dart';
+import 'package:user_frontend/services/balanceService.dart'; // Import the BalanceService
 import 'card.dart'; // Import the CardPage
 import 'accountPage.dart'; // Import the AccountPage
+import 'exchange_page.dart'; // Import the ExchangePage
+import 'payment_page.dart'; // Import the PaymentPage
+import 'transaction_page.dart'; // Import the TransactionPage
 
-class PaymentOptionScreen extends StatelessWidget {
+class PaymentOptionScreen extends StatefulWidget {
   final String name;
   final String email;
   final String balance;
@@ -22,6 +26,34 @@ class PaymentOptionScreen extends StatelessWidget {
     required this.phoneNumber,
     required this.address,
   });
+
+  @override
+  _PaymentOptionScreenState createState() => _PaymentOptionScreenState();
+}
+
+class _PaymentOptionScreenState extends State<PaymentOptionScreen> {
+  late String balance;
+  final BalanceService _balanceService = BalanceService();
+
+  @override
+  void initState() {
+    super.initState();
+    balance = widget.balance;
+    _refreshBalance();
+  }
+
+  Future<void> _refreshBalance() async {
+    try {
+      String newBalance = await _balanceService.getBalance(widget.accountNumber);
+      setState(() {
+        balance = newBalance;
+      });
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to fetch balance: $e')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +78,7 @@ class PaymentOptionScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      name,
+                      widget.name,
                       style: const TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
@@ -55,7 +87,7 @@ class PaymentOptionScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      email,
+                      widget.email,
                       style: const TextStyle(
                         fontSize: 14,
                         color: Colors.white,
@@ -72,7 +104,7 @@ class PaymentOptionScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      accountNumber,
+                      widget.accountNumber,
                       style: const TextStyle(
                         fontSize: 16,
                         color: Colors.white,
@@ -105,15 +137,15 @@ class PaymentOptionScreen extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                             builder: (context) => AccountPage(
-                              name: name,
-                              email: email,
-                              accountNumber: accountNumber,
-                              userId: userId,
-                              phoneNumber: phoneNumber,
-                              address: address,
+                              name: widget.name,
+                              email: widget.email,
+                              accountNumber: widget.accountNumber,
+                              userId: widget.userId,
+                              phoneNumber: widget.phoneNumber,
+                              address: widget.address,
                             ),
                           ),
-                        );
+                        ).then((_) => _refreshBalance());
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.deepPurple,
@@ -153,19 +185,44 @@ class PaymentOptionScreen extends StatelessWidget {
                     PaymentOptionButton(
                       title: 'Transaction',
                       onPressed: () {
-                        // TODO: Implement transaction functionality
+                        // Navigate to the TransactionPage
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TransactionPage(
+                              accountNumber: widget.accountNumber,
+                            ),
+                          ),
+                        ).then((_) => _refreshBalance());
                       },
                     ),
                     PaymentOptionButton(
                       title: 'Payment',
                       onPressed: () {
-                        // TODO: Implement payment functionality
+                        // Navigate to the PaymentPage
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PaymentPage(
+                              userId: int.parse(widget.userId),
+                              name: widget.name,
+                              email: widget.email,
+                              accountNumber: widget.accountNumber,
+                            ),
+                          ),
+                        ).then((_) => _refreshBalance());
                       },
                     ),
                     PaymentOptionButton(
                       title: 'Exchange',
                       onPressed: () {
-                        // TODO: Implement exchange functionality
+                        // Navigate to the ExchangePage
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ExchangePage(),
+                          ),
+                        ).then((_) => _refreshBalance());
                       },
                     ),
                     PaymentOptionButton(
@@ -176,13 +233,13 @@ class PaymentOptionScreen extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                             builder: (context) => CardPage(
-                              userId: int.parse(userId),
-                              name: name,
-                              email: email,
-                              accountNumber: accountNumber,
+                              userId: int.parse(widget.userId),
+                              name: widget.name,
+                              email: widget.email,
+                              accountNumber: widget.accountNumber,
                             ),
                           ),
-                        );
+                        ).then((_) => _refreshBalance());
                       },
                     ),
                     const SizedBox(height: 20),
